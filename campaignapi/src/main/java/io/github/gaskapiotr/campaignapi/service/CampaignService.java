@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 public class CampaignService {
     private final CampaignRepository campaignRepository;
 
-    public List<CampaignResponse> getAll() {
+    public List<CampaignResponse> getAllCampaigns() {
         return campaignRepository.findAll().stream()
                 .map(this::mapToResponse)
                 .toList();
     }
 
-    public CampaignResponse getById(Long id) {
+    public CampaignResponse getCampaignById(Long id) {
         return campaignRepository.findById(id)
                 .map(this::mapToResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Campaign not found in database"));
