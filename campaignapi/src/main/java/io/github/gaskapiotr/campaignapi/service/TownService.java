@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,10 +18,10 @@ import java.util.stream.Collectors;
 public class TownService {
     private final TownRepository townRepository;
 
-    public Set<TownResponse> getAllTowns() {
-        return townRepository.findAll().stream()
+    public List<TownResponse> getAllTowns() {
+        return townRepository.findAllByOrderByNameAsc().stream()
                 .map(this::entityToResponse)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     private TownResponse entityToResponse(Town entity) {
