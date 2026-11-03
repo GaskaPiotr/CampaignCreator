@@ -15,7 +15,7 @@ import java.util.Set;
 public class TownService {
     private final TownRepository townRepository;
 
-    public Set<Town> getAll() {
+    public Set<Town> getAllTowns() {
         return new HashSet<>(townRepository.findAll());
     }
 }
