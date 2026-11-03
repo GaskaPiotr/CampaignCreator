@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class KeywordService {
     private final KeywordRepository keywordRepository;
 
-    public Set<String> getAll() {
+    public Set<String> getAllKeywordNames() {
         return keywordRepository.findAll().stream()
                 .map(Keyword::getName)
                 .collect(Collectors.toSet());
