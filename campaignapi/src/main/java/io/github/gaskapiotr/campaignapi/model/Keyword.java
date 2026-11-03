@@ -18,4 +18,16 @@ public class Keyword {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Keyword keyword)) return false;
+        return name != null && name.equals(keyword.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
 }
