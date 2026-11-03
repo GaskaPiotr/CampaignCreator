@@ -20,17 +20,17 @@ public class CampaignService {
 
     public List<CampaignResponse> getAllCampaigns() {
         return campaignRepository.findAll().stream()
-                .map(this::mapToResponse)
+                .map(this::entityToResponse)
                 .toList();
     }
 
     public CampaignResponse getCampaignById(Long id) {
         return campaignRepository.findById(id)
-                .map(this::mapToResponse)
+                .map(this::entityToResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Campaign not found in database"));
     }
 
-    private CampaignResponse mapToResponse(Campaign entity) {
+    private CampaignResponse entityToResponse(Campaign entity) {
         return new CampaignResponse(
                 entity.getId(),
                 entity.getName(),
