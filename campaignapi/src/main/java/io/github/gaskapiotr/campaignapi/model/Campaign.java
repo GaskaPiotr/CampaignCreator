@@ -46,4 +46,8 @@ public class Campaign {
 
     @Column(nullable = false)
     private Double radiusKm;
+
+    public String getTownName() {
+        return this.town != null ? this.town.getName() : null;
+    }
 }
