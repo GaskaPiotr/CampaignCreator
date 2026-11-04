@@ -37,4 +37,10 @@ public class EmeraldAccountService {
 
         emeraldAccount.setBalance(balance.subtract(amount));
     }
+
+    @Transactional
+    public void depositFunds(BigDecimal amount) {
+        EmeraldAccount account = getAccountEntity();
+        account.setBalance(account.getBalance().add(amount));
+    }
 }
