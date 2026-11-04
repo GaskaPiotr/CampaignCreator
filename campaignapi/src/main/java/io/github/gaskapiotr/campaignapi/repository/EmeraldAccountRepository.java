@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface EmeraldAccountRepository extends JpaRepository<EmeraldAccount, Long> {
-
     @Query("SELECT a FROM EmeraldAccount a")
     Optional<EmeraldAccount> findAccount();
 }

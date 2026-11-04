@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class EmeraldAccount {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
