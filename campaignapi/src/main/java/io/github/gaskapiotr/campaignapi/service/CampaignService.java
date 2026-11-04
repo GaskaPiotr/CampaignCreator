@@ -4,7 +4,6 @@ import io.github.gaskapiotr.campaignapi.dto.CampaignRequest;
 import io.github.gaskapiotr.campaignapi.dto.CampaignResponse;
 import io.github.gaskapiotr.campaignapi.model.Campaign;
 import io.github.gaskapiotr.campaignapi.model.Keyword;
-import io.github.gaskapiotr.campaignapi.model.Town;
 import io.github.gaskapiotr.campaignapi.repository.CampaignRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
