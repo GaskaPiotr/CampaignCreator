@@ -41,8 +41,9 @@
     <div class="field">
       <label>Status *</label>
       <select formControlName="status">
-        <option value="ON">ON</option>
-        <option value="OFF">OFF</option>
+        @for (st of statuses; track st) {
+          <option [value]="st">{{ st }}</option>
+        }
       </select>
     </div>
     <div class="field">

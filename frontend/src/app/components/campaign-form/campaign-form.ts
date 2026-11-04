@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CampaignRequest, CampaignResponse } from '../../models/campaign.model';
+import { CampaignRequest, CampaignResponse, CampaignStatus } from '../../models/campaign.model';
 import { TownResponse } from '../../models/town.model';
 import { CampaignService } from '../../services/campaign.service';
 import { DictionaryService } from '../../services/dictionary.service';
@@ -25,6 +25,7 @@ export class CampaignFormComponent implements OnInit, OnChanges {
   form!: FormGroup;
   towns: TownResponse[] = [];
   availableKeywords: string[] = [];
+  statuses: CampaignStatus[] = [];
   selectedKeywords: string[] = [];
   errorMessage: string | null = null;
 
@@ -40,6 +41,7 @@ export class CampaignFormComponent implements OnInit, OnChanges {
 
     this.dictionaryService.getTowns().subscribe(t => this.towns = t);
     this.dictionaryService.getKeywords().subscribe(k => this.availableKeywords = k);
+    this.dictionaryService.getStatuses().subscribe(s => this.statuses = s);
   }
 
   ngOnChanges(): void {
