@@ -17,6 +17,6 @@ export interface CampaignResponse {
   bidAmount: number;
   campaignFund: number;
   status: CampaignStatus;
-  townId?: number | null;
+  townName?: string | null;
   radiusKm: number;
 }
