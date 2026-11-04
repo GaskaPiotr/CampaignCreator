@@ -1,5 +1,6 @@
 package io.github.gaskapiotr.campaignapi.service;
 
+import io.github.gaskapiotr.campaignapi.dto.CampaignRequest;
 import io.github.gaskapiotr.campaignapi.dto.CampaignResponse;
 import io.github.gaskapiotr.campaignapi.model.Campaign;
 import io.github.gaskapiotr.campaignapi.model.Keyword;
@@ -17,6 +18,9 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class CampaignService {
     private final CampaignRepository campaignRepository;
+    private final EmeraldAccountService emeraldAccountService;
+    private final KeywordService keywordService;
+    private final TownService townService;
 
     public List<CampaignResponse> getAllCampaigns() {
         return campaignRepository.findAll().stream()
@@ -43,5 +47,27 @@ public class CampaignService {
                 entity.getTownName(),
                 entity.getRadiusKm()
         );
+    }
+
+    @Transactional
+    public CampaignResponse createCampaign(CampaignRequest campaignRequest) {
+        emeraldAccountService.deductFunds(campaignRequest.campaignFund());
+
+        Campaign campaign = mapToEntity(campaignRequest);
+        Campaign savedCampaign = campaignRepository.save(campaign);
+
+        return mapToResponse(savedCampaign);
+    }
+
+    private Campaign mapToEntity(CampaignRequest request) {
+        Campaign campaign = new Campaign();
+        campaign.setName(request.name());
+        campaign.setKeywords(keywordService.getKeywordsByNames(request.keywords()));
+        campaign.setBidAmount(request.bidAmount());
+        campaign.setCampaignFund(request.campaignFund());
+        campaign.setStatus(request.status());
+        campaign.setTown(request.townId() != null ? townService.getTownEntityById(request.townId()) : null);
+        campaign.setRadiusKm(request.radiusKm());
+        return campaign;
     }
 }
