@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CampaignResponse } from '../../models/campaign.model';
 import { CampaignService } from '../../services/campaign.service';
-import { DictionaryService } from '../../services/dictionary.service';
 
 @Component({
   selector: 'app-campaign-list',
@@ -13,29 +12,22 @@ import { DictionaryService } from '../../services/dictionary.service';
 })
 export class CampaignListComponent implements OnInit {
   private readonly campaignService = inject(CampaignService);
-  private readonly dictionaryService = inject(DictionaryService);
 
   @Output() edit = new EventEmitter<CampaignResponse>();
 
-  campaigns: CampaignResponse[] = [];
-  townsMap = new Map<number, string>();
+  readonly campaigns = signal<CampaignResponse[]>([]);
 
   ngOnInit(): void {
-    this.dictionaryService.getTowns().subscribe(towns => {
-      towns.forEach(t => this.townsMap.set(t.id, t.name));
-      this.loadCampaigns();
-    });
+    this.loadCampaigns();
   }
 
   loadCampaigns(): void {
-    this.campaignService.getAllCampaigns().subscribe(data => {
-      this.campaigns = data;
+    this.campaignService.getAllCampaigns().subscribe({
+      next: (data: CampaignResponse[]) => {
+        this.campaigns.set(data);
+      },
+      error: (err) => console.error('Failed to load campaigns:', err)
     });
-  }
-
-  getTownName(townId?: number | null): string {
-    if (!townId) return '—';
-    return this.townsMap.get(townId) || `ID: ${townId}`;
   }
 
   onEdit(campaign: CampaignResponse): void {

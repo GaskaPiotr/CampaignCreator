@@ -1,7 +1,7 @@
 <div class="list-container">
   <h3>Campaigns</h3>
 
-  @if (campaigns.length === 0) {
+  @if (campaigns().length === 0) {
     <p class="empty-state">No campaigns found. Create your first campaign above.</p>
   } @else {
     <table class="campaign-table">
@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (c of campaigns; track c.id) {
+        @for (c of campaigns(); track c.id) {
           <tr>
             <td>{{ c.id }}</td>
             <td class="name-cell">{{ c.name }}</td>
@@ -33,7 +33,7 @@
                 {{ c.status }}
               </span>
             </td>
-            <td>{{ getTownName(c.townId) }}</td>
+            <td>{{ c.townName || '—' }}</td>
             <td>{{ c.radiusKm }} km</td>
             <td class="actions-cell">
               <button type="button" class="btn-edit" (click)="onEdit(c)">Edit</button>
