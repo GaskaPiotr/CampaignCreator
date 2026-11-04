@@ -5,6 +5,7 @@ import io.github.gaskapiotr.campaignapi.dto.CampaignResponse;
 import io.github.gaskapiotr.campaignapi.model.CampaignStatus;
 import io.github.gaskapiotr.campaignapi.service.CampaignService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +47,13 @@ public class CampaignController {
                 .toUri();
 
         return ResponseEntity.created(location).body(createdCampaign);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CampaignResponse> updateCampaign(
+            @PathVariable @Positive(message = "ID must be positive") Long id,
+            @Valid @RequestBody CampaignRequest request
+    ) {
+        return ResponseEntity.ok(campaignService.updateCampaign(id, request));
     }
 }
