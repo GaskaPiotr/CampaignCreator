@@ -1,0 +1,70 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="campaign-form">
+  <h3>{{ campaignToEdit ? 'Edit Campaign #' + campaignToEdit.id : 'New Campaign' }}</h3>
+
+  @if (errorMessage) {
+    <p class="error-banner">{{ errorMessage }}</p>
+  }
+
+  <div class="field">
+    <label>Name *</label>
+    <input type="text" formControlName="name" />
+  </div>
+
+  <div class="field">
+    <label>Keywords * (typeahead from dictionary)</label>
+    <div class="keyword-tags">
+      @for (kw of selectedKeywords; track kw) {
+        <span class="chip">{{ kw }} <button type="button" (click)="removeKeyword(kw)">&times;</button></span>
+      }
+    </div>
+    <!-- Natywny Typeahead przeglądarki -->
+    <input #kwInput list="kwList" placeholder="Search keyword and press Enter or select..." (change)="addKeyword(kwInput)" />
+    <datalist id="kwList">
+      @for (k of availableKeywords; track k) {
+        <option [value]="k"></option>
+      }
+    </datalist>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Bid Amount *</label>
+      <input type="number" step="0.01" formControlName="bidAmount" />
+    </div>
+    <div class="field">
+      <label>Campaign Fund *</label>
+      <input type="number" step="0.01" formControlName="campaignFund" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Status *</label>
+      <select formControlName="status">
+        <option value="ON">ON</option>
+        <option value="OFF">OFF</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Town</label>
+      <select formControlName="townId">
+        <option [ngValue]="null">-- None --</option>
+        @for (t of towns; track t.id) {
+          <option [value]="t.id">{{ t.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Radius (km) *</label>
+    <input type="number" formControlName="radiusKm" />
+  </div>
+
+  <div class="actions">
+    <button type="submit">{{ campaignToEdit ? 'Save Changes' : 'Create' }}</button>
+    @if (campaignToEdit) {
+      <button type="button" (click)="reset()">Cancel</button>
+    }
+  </div>
+</form>

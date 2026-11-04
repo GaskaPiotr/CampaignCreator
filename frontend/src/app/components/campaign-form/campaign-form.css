@@ -1,0 +1,47 @@
+.campaign-form {
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.row {
+  display: flex;
+  gap: 16px;
+}
+.row .field {
+  flex: 1;
+}
+.keyword-tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.chip {
+  background: #eee;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+.chip button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.error-banner {
+  color: #c00;
+  font-weight: 500;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
