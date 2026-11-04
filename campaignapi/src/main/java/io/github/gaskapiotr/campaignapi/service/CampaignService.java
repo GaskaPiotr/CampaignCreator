@@ -70,8 +70,7 @@ public class CampaignService {
 
     @Transactional
     public CampaignResponse updateCampaign(Long id, CampaignRequest campaignRequest) {
-        Campaign campaign = campaignRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Campaign not found with id: " + id));
+        Campaign campaign = getCampaignEntityById(id);
 
         adjustCampaignFund(campaign.getCampaignFund(), campaignRequest.campaignFund());
 
@@ -98,5 +97,19 @@ public class CampaignService {
         } else if (difference.compareTo(BigDecimal.ZERO) < 0) {
             emeraldAccountService.depositFunds(difference.abs());
         }
+    }
+
+    @Transactional
+    public void deleteCampaign(Long id) {
+        Campaign campaign = getCampaignEntityById(id);
+
+        emeraldAccountService.depositFunds(campaign.getCampaignFund());
+
+        campaignRepository.delete(campaign);
+    }
+
+    private Campaign getCampaignEntityById(Long id) {
+       return campaignRepository.findById(id)
+                       .orElseThrow(() -> new EntityNotFoundException("Campaign not found with id: " + id));
     }
 }
