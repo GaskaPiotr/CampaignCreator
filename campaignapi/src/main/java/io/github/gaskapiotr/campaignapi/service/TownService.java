@@ -17,11 +17,11 @@ public class TownService {
 
     public List<TownResponse> getAllTowns() {
         return townRepository.findAllByOrderByNameAsc().stream()
-                .map(this::entityToResponse)
+                .map(this::mapToResponse)
                 .toList();
     }
 
-    private TownResponse entityToResponse(Town entity) {
+    private TownResponse mapToResponse(Town entity) {
         return new TownResponse(
                 entity.getId(),
                 entity.getName()
