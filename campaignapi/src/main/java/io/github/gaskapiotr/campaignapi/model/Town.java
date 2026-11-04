@@ -11,7 +11,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Town {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
