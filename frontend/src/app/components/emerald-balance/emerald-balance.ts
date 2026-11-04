@@ -9,7 +9,7 @@ import { EmeraldAccountService } from '../../services/emerald-account.service';
   templateUrl: './emerald-balance.html',
   styleUrl: './emerald-balance.css',
 })
-export class EmeraldBalance implements OnInit {
+export class EmeraldBalanceComponent implements OnInit {
   private readonly emeraldAccountService = inject(EmeraldAccountService);
 
   readonly balance = this.emeraldAccountService.balance;
