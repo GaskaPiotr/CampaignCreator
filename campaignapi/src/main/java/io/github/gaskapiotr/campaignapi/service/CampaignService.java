@@ -4,13 +4,16 @@ import io.github.gaskapiotr.campaignapi.dto.CampaignRequest;
 import io.github.gaskapiotr.campaignapi.dto.CampaignResponse;
 import io.github.gaskapiotr.campaignapi.model.Campaign;
 import io.github.gaskapiotr.campaignapi.model.Keyword;
+import io.github.gaskapiotr.campaignapi.model.Town;
 import io.github.gaskapiotr.campaignapi.repository.CampaignRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,6 +64,23 @@ public class CampaignService {
 
     private Campaign mapToEntity(CampaignRequest request) {
         Campaign campaign = new Campaign();
+        updateEntityFromRequest(campaign, request);
+        return campaign;
+    }
+
+    @Transactional
+    public CampaignResponse updateCampaign(Long id, CampaignRequest campaignRequest) {
+        Campaign campaign = campaignRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Campaign not found with id: " + id));
+
+        adjustCampaignFund(campaign.getCampaignFund(), campaignRequest.campaignFund());
+
+        updateEntityFromRequest(campaign, campaignRequest);
+
+        return mapToResponse(campaign);
+    }
+
+    private void updateEntityFromRequest(Campaign campaign, CampaignRequest request) {
         campaign.setName(request.name());
         campaign.setKeywords(keywordService.getKeywordsByNames(request.keywords()));
         campaign.setBidAmount(request.bidAmount());
@@ -68,6 +88,15 @@ public class CampaignService {
         campaign.setStatus(request.status());
         campaign.setTown(request.townId() != null ? townService.getTownEntityById(request.townId()) : null);
         campaign.setRadiusKm(request.radiusKm());
-        return campaign;
+    }
+
+    private void adjustCampaignFund(BigDecimal oldFund, BigDecimal newFund) {
+        BigDecimal difference = newFund.subtract(oldFund);
+
+        if (difference.compareTo(BigDecimal.ZERO) > 0) {
+            emeraldAccountService.deductFunds(difference);
+        } else if (difference.compareTo(BigDecimal.ZERO) < 0) {
+            emeraldAccountService.depositFunds(difference.abs());
+        }
     }
 }
