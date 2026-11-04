@@ -26,7 +26,8 @@ public class CampaignController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CampaignResponse> getCampaignById(@PathVariable Long id) {
+    public ResponseEntity<CampaignResponse> getCampaignById(
+            @PathVariable @Positive(message = "ID must be positive") Long id) {
         return ResponseEntity.ok(campaignService.getCampaignById(id));
     }
 
