@@ -1,15 +1,16 @@
 package io.github.gaskapiotr.campaignapi.controller;
 
+import io.github.gaskapiotr.campaignapi.dto.CampaignRequest;
 import io.github.gaskapiotr.campaignapi.dto.CampaignResponse;
 import io.github.gaskapiotr.campaignapi.model.CampaignStatus;
 import io.github.gaskapiotr.campaignapi.service.CampaignService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -33,5 +34,17 @@ public class CampaignController {
         return ResponseEntity.ok(
                 List.of(CampaignStatus.values())
         );
+    }
+
+    @PostMapping
+    public ResponseEntity<CampaignResponse> createCampaign(@Valid @RequestBody CampaignRequest request) {
+        CampaignResponse createdCampaign = campaignService.createCampaign(request);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdCampaign.id())
+                .toUri();
+
+        return ResponseEntity.created(location).body(createdCampaign);
     }
 }
