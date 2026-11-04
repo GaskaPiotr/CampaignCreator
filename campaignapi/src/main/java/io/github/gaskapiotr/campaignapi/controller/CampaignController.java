@@ -56,4 +56,11 @@ public class CampaignController {
     ) {
         return ResponseEntity.ok(campaignService.updateCampaign(id, request));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCampaign(
+            @PathVariable @Positive(message = "ID must be positive") Long id) {
+        campaignService.deleteCampaign(id);
+        return ResponseEntity.noContent().build();
+    }
 }
