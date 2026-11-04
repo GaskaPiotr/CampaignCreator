@@ -1,0 +1,47 @@
+<div class="list-container">
+  <h3>Campaigns</h3>
+
+  @if (campaigns().length === 0) {
+    <p class="empty-state">No campaigns found. Create your first campaign above.</p>
+  } @else {
+    <table class="campaign-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Keywords</th>
+          <th>Bid Amount</th>
+          <th>Fund</th>
+          <th>Status</th>
+          <th>Town</th>
+          <th>Radius</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of campaigns(); track c.id) {
+          <tr>
+            <td>{{ c.id }}</td>
+            <td class="name-cell">{{ c.name }}</td>
+            <td>
+              <span class="kw-tags">{{ c.keywords.join(', ') }}</span>
+            </td>
+            <td>{{ c.bidAmount | number:'1.2-2' }}</td>
+            <td>{{ c.campaignFund | number:'1.2-2' }}</td>
+            <td>
+              <span [class]="'badge ' + (c.status === 'ON' ? 'badge-on' : 'badge-off')">
+                {{ c.status }}
+              </span>
+            </td>
+            <td>{{ c.townName || '—' }}</td>
+            <td>{{ c.radiusKm }} km</td>
+            <td class="actions-cell">
+              <button type="button" class="btn-edit" (click)="onEdit(c)">Edit</button>
+              <button type="button" class="btn-delete" (click)="onDelete(c.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

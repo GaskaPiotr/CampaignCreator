@@ -1,14 +1,22 @@
-# Campaign Management Backend
+# Campaign Management Backend & Frontend
 
 A REST API for managing seller product campaigns with fund deduction and settlement from an Emerald account.
 
 ## Tech Stack
+
+### Backend
 
 - **Java:** 25
 - **Framework:** Spring Boot 4
 - **Database:** H2 Database (in-memory)
 - **API Documentation:** SpringDoc OpenAPI (Swagger UI)
 - **Testing:** JUnit 5, Mockito, AssertJ
+
+### Frontend
+- **Framework:** Angular (Standalone Components, Signals)
+- **Language:** TypeScript
+- **Styling:** CSS
+- **Form Controls:** HTML5 `<datalist>` for keyword typeahead
 
 ---
 
@@ -29,12 +37,14 @@ A REST API for managing seller product campaigns with fund deduction and settlem
 
 ### Prerequisites
 - JDK 25+
+- Node.js (v24+) & npm
 
-### Build and Run
+### Build and Run Backend
 
 Run using the Maven wrapper:
 
 ```bash
+cd campaignapi
 ./mvnw spring-boot:run
 ```
 
@@ -44,11 +54,25 @@ Run using the Maven wrapper:
 - **Swagger UI:** `http://localhost:8080/swagger-ui.html`
 - **OpenAPI Schema:** `http://localhost:8080/v3/api-docs`
 
-### Running Tests
+### Running Backend Tests
 
 ```bash
+cd campaignapi
 ./mvnw clean test
 ```
+
+### Build and Run Frontend
+
+In a separate terminal:
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+- **Application URL:** `http://localhost:4200`
+- API calls (`/api/*`) are proxied to `http://localhost:8080` via `proxy.conf.json`.
 
 ---
 

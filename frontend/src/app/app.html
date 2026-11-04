@@ -1,0 +1,18 @@
+<main class="container">
+  <header class="app-header">
+    <h1>Campaign Manager</h1>
+    <app-emerald-balance />
+  </header>
+
+  <section class="section">
+    <app-campaign-form
+      [campaignToEdit]="selectedCampaign"
+      (saved)="onFormSaved()"
+      (cancelled)="onFormCancelled()"
+    />
+  </section>
+
+  <section class="section">
+    <app-campaign-list (edit)="onEditRequested($event)" />
+  </section>
+</main>

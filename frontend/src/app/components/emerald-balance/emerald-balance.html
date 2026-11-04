@@ -1,0 +1,6 @@
+<div class="balance-card">
+  <span class="balance-label">Account Balance:</span>
+  <span class="balance-value">
+    {{ balance() !== null ? (balance() | number:'1.2-2') : 'Loading...' }}
+  </span>
+</div>
